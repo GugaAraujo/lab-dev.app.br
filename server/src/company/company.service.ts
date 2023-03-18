@@ -21,8 +21,33 @@ export class CompanyService {
     return await this.prisma.company.create({ data });
   }
 
-  async findAll(): Promise<Company[]> {
-    return await this.prisma.company.findMany();
+  async findAll(query): Promise<Company[]> {
+    let where = {};
+    let orderBy = {};
+    let skip = 0;
+
+    if (query.name) {
+      where = {
+        name: { contains: query.name, mode: 'insensitive' },
+      };
+    }
+
+    if (query.order) {
+      orderBy = {
+        name: query.order,
+      };
+    }
+
+    if (query.skip) {
+      skip = (query.skip - 1) * query.limit;
+    }
+
+    return await this.prisma.company.findMany({
+      where,
+      orderBy,
+      skip,
+      take: query.limit
+    });
   }
 
   async findOne(id: string): Promise<Company> {
