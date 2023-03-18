@@ -63,12 +63,14 @@ export class UserService {
   async remove(id: string): Promise<object> {
     const user = await this.findOne(id)
 
-    if (user) {
-      await this.prisma.user.delete({
-        where: { id: user.id },
-      })
-      return { message: "User deleted" };
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     }
+
+    await this.prisma.user.delete({
+      where: { id: user.id },
+    })
+    return { message: "User deleted" };
   }
 
   async isPasswordValid(email: string, password: string): Promise<BasicUserDto> {
@@ -78,7 +80,7 @@ export class UserService {
 
     if (user) {
       const isPasswordValid = await bcrypt.compare(password, user.hash);
-      
+
       if (isPasswordValid) {
         delete user.hash;
         delete user.createdAt;
