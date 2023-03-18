@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Query } from '@nestjs/common';
 import { AdminOnly } from 'src/auth/decorators/admin-only.decorator';
 import { MongoIdValidation } from 'src/auth/decorators/is-mongo-id.decorator';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { QueryCompanyDto } from './dto/query-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Controller('company')
@@ -17,8 +18,8 @@ export class CompanyController {
 
   @Get()
   @UseInterceptors(AdminOnly)
-  findAll() {
-    return this.companyService.findAll();
+  findAll(@Query() query: QueryCompanyDto)  {
+    return this.companyService.findAll(query);
   }
 
   @Get(':id')
