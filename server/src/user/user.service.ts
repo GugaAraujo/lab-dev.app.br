@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
 import { Role } from './entities/Role.enum';
 import { BasicUserDto } from './dto/basic-user.dto';
+import { UnauthorizedError } from 'src/auth/errors/unauthorized.error';
 
 @Injectable()
 export class UserService {
@@ -62,30 +63,40 @@ export class UserService {
   async remove(id: string): Promise<object> {
     const user = await this.findOne(id)
 
-    if (user) {
-      await this.prisma.user.delete({
-        where: { id: user.id },
-      })
-      return { message: "User deleted" };
+    if (!user) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     }
+
+    await this.prisma.user.delete({
+      where: { id: user.id },
+    })
+    return { message: "User deleted" };
   }
 
-  async isAdmin(id: string): Promise<object> {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-      select: {
-        role: true,
-      }
-    });
-
-    return { admin: user.role === Role.ADMIN};
-  }
-
-  async isPasswordValid(email: string, password: string): Promise<boolean> {
+  async isPasswordValid(email: string, password: string): Promise<BasicUserDto> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
-    return await bcrypt.compare(password, user.hash);
+    if (user) {
+      const isPasswordValid = await bcrypt.compare(password, user.hash);
+
+      if (isPasswordValid) {
+        delete user.hash;
+        delete user.createdAt;
+        delete user.updatedAt;
+
+        return user;
+      } else {
+        throw new UnauthorizedError(
+          'The password provided is incorrect.',
+        );
+      }
+    } else {
+      throw new UnauthorizedError(
+        'The email address provided is incorrect.',
+      );
+    }
+
   }
 }
