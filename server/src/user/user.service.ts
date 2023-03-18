@@ -19,10 +19,12 @@ export class UserService {
     if (userExists) {
       throw new HttpException('Email is already in use', HttpStatus.CONFLICT);
     }
+    const hash = await bcrypt.hash(createUserDto.password, 10);
+    delete createUserDto.password;
 
     const data: Prisma.UserCreateInput = {
       ...createUserDto,
-      hash: await bcrypt.hash(createUserDto.hash, 10),
+      hash,
     };
 
     const createdUser = await this.prisma.user.create({ data });
@@ -77,5 +79,13 @@ export class UserService {
     });
 
     return { admin: user.role === Role.ADMIN};
+  }
+
+  async isPasswordValid(email: string, password: string): Promise<boolean> {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    return await bcrypt.compare(password, user.hash);
   }
 }
