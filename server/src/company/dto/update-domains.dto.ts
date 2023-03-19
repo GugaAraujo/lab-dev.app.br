@@ -5,10 +5,7 @@ import {
   IsUrl,
 } from 'class-validator';
 
-export class UpdateCompanyDto extends Company {
-  @IsString()
-  address: string;
-
+export class UpdateDomainsDto extends Company {
   @IsArray()
   @IsString({ each: true })
   @IsUrl(

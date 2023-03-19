@@ -2,7 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
+import { UpdateDomainsDto } from './dto/update-domains.dto';
 import { Company } from './entities/company.entity';
 
 @Injectable()
@@ -60,7 +61,7 @@ export class CompanyService {
     return company;
   }
 
-  async update(id: string, updateCompanyDto: UpdateCompanyDto): Promise<Company> {
+  async update(id: string, updateCompanyDto: UpdateAddressDto): Promise<Company> {
     const company = await this.findOne(id);
     if (!company) {
       throw new HttpException("Company not found", HttpStatus.NOT_FOUND);
@@ -72,7 +73,19 @@ export class CompanyService {
     });
   }
 
-  async remove(id: string) {
+  async updateDomain(id: string, domains: UpdateDomainsDto): Promise<Company> {
+    const company = await this.findOne(id)
+    if (!company) {
+      throw new HttpException("Company not found", HttpStatus.NOT_FOUND);
+    }
+
+    return await this.prisma.company.update({
+      where: { id },
+      data: { ...domains },
+    })
+  }
+
+  async removeCompany(id: string): Promise<object> {
     const company = await this.findOne(id)
 
     if (!company) {
