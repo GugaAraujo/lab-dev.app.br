@@ -1,0 +1,5 @@
+export const ADD_USER = "ADD_USER";
+export const REMOVE_USER = "REMOVE_USER";
+
+export const NOTIFICATE = "NOTIFICATE";
+export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION";
