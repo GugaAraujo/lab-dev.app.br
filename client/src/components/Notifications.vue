@@ -7,7 +7,13 @@
           <p>
             {{ notification.title }}
           </p>
-          <button class="btn text-white ms-auto" @click="closeNotification(notification.id)" aria-label="delete">X</button>
+          <button
+            class="btn text-white close-notification"
+            @click="closeNotification(notification.id)"
+            aria-label="delete"
+          >
+            X
+          </button>
         </div>
         <div class="message-body">
           {{ notification.text }}
@@ -33,7 +39,7 @@ function closeNotification(notificationId: NotificationType) {
   store.dispatch(CLOSE_NOTIFICATION, notificationId);
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .notifications {
   position: absolute;
   right: 0;
@@ -41,6 +47,15 @@ function closeNotification(notificationId: NotificationType) {
   z-index: 10;
   opacity: 0;
   animation: fade-in .65s ease-in forwards;
+
+  .message-header {
+    position: relative;
+    .close-notification {
+      position: absolute;
+      bottom: 10px;
+      right: 0;
+    }
+  }
 }
 
 .fade-effect {
