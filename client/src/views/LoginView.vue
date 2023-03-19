@@ -1,27 +1,5 @@
-<template>
-  <div class="">
-    <section class="">
-      <form @submit.prevent="login" class="">
-        <div class="">
-          <label for="login" class=""> Email </label>
-          <div class="">
-            <input class="" v-model="email" type="email" placeholder="seu@email.com">
-          </div>
-        </div>
-        <div class="">
-          <label for="login" class=""> Senha </label>
-          <div class="">
-            <input class="" v-model="password" type="password" placeholder="********">
-          </div>
-        </div>
-        <div class="">
-          <button class="" :class="isLoading ? 'is-loading' : ''" type="submit">Entrar</button>
-        </div>
-      </form>
-    </section>
-  </div>
-</template>
 <script setup lang="ts">
+import CardForm from "@/components/CardForm.vue";
 import { useStore } from "@/store";
 import { LOGIN } from "@/store/types-action";
 import { ref } from "vue";
@@ -40,17 +18,30 @@ async function login() {
     isLoading.value = false;
   });
 }
-
 </script>
 
-<style lang="scss" scoped>
-.columns {
-  margin-left: 0;
-  margin-right: 0;
+<template>
+  <CardForm
+    viewPathRedirect="register"
+    askRedirect="Não possui conta?"
+    labelRedirect="Cadastre-se"
+    buttonTitle="Entrar"
+    :disabled="isLoading"
+    @clicked="login"
+    @keyup.enter="login"
+  >
+    <form>
+      <div class="form-floating">
+        <input type="email" name="email-login" v-model="email" class="form-control" id="floatingInput" placeholder="Email">
+        <label for="floatingInput">Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" name="password-login" v-model="password" class="form-control" id="floatingPassword" placeholder="Senha">
+        <label for="floatingPassword">Senha</label>
+      </div>
+    </form>
+  </CardForm>
+</template>
 
-  @media screen and (min-width: 768px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
+<style lang="scss" scoped>
 </style>

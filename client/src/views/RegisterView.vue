@@ -1,37 +1,32 @@
 <template>
-  <div class="">
-    <section class="">
-      <form @submit.prevent="register" class="">
-        <div class="">
-          <label for="register" class=""> Nome </label>
-          <div class="">
-            <input type="name" class="" v-model="name" id="name" />
-          </div>
+   <CardForm
+      viewPathRedirect="login"
+      askRedirect="Já possui conta?"
+      labelRedirect="Login"
+      buttonTitle="Cadastrar"
+      :disabled="isLoading"
+      @clicked="register"
+      @keyup.enter="register"
+    >
+      <form>
+        <div class="form-floating">
+          <input type="text" name="name-register" v-model="name" class="form-control" id="floatingInput" placeholder="Nome">
+          <label for="floatingInput">Nome</label>
         </div>
-        <div class="">
-          <label for="register" class=""> Email </label>
-          <div class="">
-            <input type="email" class="" v-model="email" id="email" />
-          </div>
+        <div class="form-floating">
+          <input type="email" name="email-register" v-model="email" class="form-control" id="floatingInput" placeholder="Email">
+          <label for="floatingInput">Email</label>
         </div>
-        <div class="">
-          <label for="register" class=""> Senha </label>
-          <div class="">
-            <input type="password" class="" v-model="password" id="password" />
-          </div>
+        <div class="form-floating">
+          <input type="password" name="password-register" v-model="password" class="form-control" id="floatingPassword" placeholder="Senha">
+          <label for="floatingPassword">Senha</label>
         </div>
-        <div class="">
-          <label for="register" class=""> Confirme a senha </label>
-          <div class="">
-            <input type="password" class="" v-model="confirmPwd" id="password" />
-          </div>
-        </div>
-        <div class="">
-          <button class="" :class="isLoading ? 'is-loading' : ''" type="submit">Registrar</button>
+        <div class="form-floating">
+          <input type="password" name="confirm-password-register" v-model="confirmPwd" class="form-control" id="floatingPassword" placeholder="Senha">
+          <label for="floatingPassword">Confirme a senha</label>
         </div>
       </form>
-    </section>
-  </div>
+    </CardForm>
 </template>
 <script setup lang="ts">
 import { useStore } from "@/store";
@@ -39,6 +34,7 @@ import { REGISTER_USER } from "@/store/types-action";
 import { NOTIFICATE } from "@/store/types-mutations";
 import { ref } from "vue";
 import { NotificationType } from "@/interfaces/INotifications";
+import CardForm from "@/components/CardForm.vue";
 
 const store = useStore();
 
