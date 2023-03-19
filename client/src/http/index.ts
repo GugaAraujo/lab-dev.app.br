@@ -43,57 +43,60 @@ const errorTypes = {
 }
 
 clientHttp.interceptors.response.use(null, (error: any) => {
-  const { message, statusCode } = error.response.data;
   let titleNotification = "Opss..."
-  let textNotification = "Sua solicitação não pode ser executada. Entre em contato com o suporte"
+  let textNotification = "Sua solicitação não pode ser executada"
 
-  if (statusCode === 401) {
-    router.push('/logout');
-    titleNotification = "Falha ao logar"
-    textNotification = "Nome ou senha incorretos"
-  }
-  if (statusCode === 403) {
-    titleNotification = "Não permitido"
-    textNotification = 'Você não tem permissão para realizar esta operação'
-  }
-  if (statusCode == 400 || statusCode === 409) {
-    titleNotification = "Campo Inválido"
-    textNotification = "Verifique os campos preechidos"
-    if (message === errorTypes.UPPERCASE || message[0] === errorTypes.UPPERCASE) {
-      textNotification = "A senha deve ter pelo menos 1 letra maiúscula"
+  if (error.response?.data) {
+    const { message, statusCode } = error.response.data;
+
+    if (statusCode === 401) {
+      router.push('/logout');
+      titleNotification = "Falha ao logar"
+      textNotification = "Nome ou senha incorretos"
     }
-    if (message === errorTypes.LOWERCASE || message[0] === errorTypes.LOWERCASE) {
-      textNotification = "A senha deve ter pelo menos 1 letra minúscula"
+    if (statusCode === 403) {
+      titleNotification = "Não permitido"
+      textNotification = 'Você não tem permissão para realizar esta operação'
     }
-    if (message === errorTypes.LINE_BREAK || message[0] === errorTypes.LINE_BREAK) {
-      textNotification = "A senha não pode ter quebra de linha"
-    }
-    if (message === errorTypes.SPECIAL_CHAR || message[0] === errorTypes.SPECIAL_CHAR) {
-      textNotification = "A senha deve ter pelo menos 1 caractere especial"
-    }
-    if (message === errorTypes.NUMBER || message[0] === errorTypes.NUMBER) {
-      textNotification = "A senha deve ter pelo menos 1 número"
-    }
-    if (message === errorTypes.NUMBER || message[0] === errorTypes.NUMBER) {
-      textNotification = "A senha deve ter pelo menos 1 número"
-    }
-    if (message === errorTypes.EMAIL_EXIST || message[0] === errorTypes.EMAIL_EXIST) {
-      textNotification = "Email já cadastrado"
-    }
-    if (message === errorTypes.NOT_EMAIL || message[0] === errorTypes.NOT_EMAIL) {
-      textNotification = "Email inválido"
-    }
-    if (message === errorTypes.NAME_NOT_STRING || message[0] === errorTypes.NAME_NOT_STRING) {
-      textNotification = "Nome inválido"
-    }
-    if (message === errorTypes.NAME_SHORT || message[0] === errorTypes.NAME_SHORT) {
-      textNotification = "Nome deve ter mais que 4 letras"
-    }
-    if (message === errorTypes.NAME_LONG || message[0] === errorTypes.NAME_LONG) {
-      textNotification = "Nome deve ter até que 20 letras"
-    }
-    if (message === errorTypes.NAME_EMPTY || message[0] === errorTypes.NAME_EMPTY) {
-      textNotification = "O nome deve ser preenchido"
+    if (statusCode == 400 || statusCode === 409) {
+      titleNotification = "Campo Inválido"
+      textNotification = "Verifique os campos preechidos"
+      if (message === errorTypes.UPPERCASE || message[0] === errorTypes.UPPERCASE) {
+        textNotification = "A senha deve ter pelo menos 1 letra maiúscula"
+      }
+      if (message === errorTypes.LOWERCASE || message[0] === errorTypes.LOWERCASE) {
+        textNotification = "A senha deve ter pelo menos 1 letra minúscula"
+      }
+      if (message === errorTypes.LINE_BREAK || message[0] === errorTypes.LINE_BREAK) {
+        textNotification = "A senha não pode ter quebra de linha"
+      }
+      if (message === errorTypes.SPECIAL_CHAR || message[0] === errorTypes.SPECIAL_CHAR) {
+        textNotification = "A senha deve ter pelo menos 1 caractere especial"
+      }
+      if (message === errorTypes.NUMBER || message[0] === errorTypes.NUMBER) {
+        textNotification = "A senha deve ter pelo menos 1 número"
+      }
+      if (message === errorTypes.NUMBER || message[0] === errorTypes.NUMBER) {
+        textNotification = "A senha deve ter pelo menos 1 número"
+      }
+      if (message === errorTypes.EMAIL_EXIST || message[0] === errorTypes.EMAIL_EXIST) {
+        textNotification = "Email já cadastrado"
+      }
+      if (message === errorTypes.NOT_EMAIL || message[0] === errorTypes.NOT_EMAIL) {
+        textNotification = "Email inválido"
+      }
+      if (message === errorTypes.NAME_NOT_STRING || message[0] === errorTypes.NAME_NOT_STRING) {
+        textNotification = "Nome inválido"
+      }
+      if (message === errorTypes.NAME_SHORT || message[0] === errorTypes.NAME_SHORT) {
+        textNotification = "Nome deve ter mais que 4 letras"
+      }
+      if (message === errorTypes.NAME_LONG || message[0] === errorTypes.NAME_LONG) {
+        textNotification = "Nome deve ter até que 20 letras"
+      }
+      if (message === errorTypes.NAME_EMPTY || message[0] === errorTypes.NAME_EMPTY) {
+        textNotification = "O nome deve ser preenchido"
+      }
     }
   }
 
