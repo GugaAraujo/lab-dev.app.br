@@ -23,8 +23,15 @@ export class AuthService {
       role: user.role,
     };
 
+    const userDataToSend = {
+      name: payload.name,
+      email: payload.email,
+      role: payload.role,
+    }
+
     return {
-      access_token: this.jwtService.sign(payload),
+      ...userDataToSend,
+      token: this.jwtService.sign(payload),
     };
   }
 
