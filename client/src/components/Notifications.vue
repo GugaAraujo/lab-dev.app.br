@@ -1,17 +1,19 @@
 <template>
   <div class="notifications" :class="notifications.length ? 'fade-effect' : ''">
-    <article class="message" :class="context[notification.type]" v-for="notification in notifications"
-      :key="notification.id">
-      <div class="message-header">
-        <p>
-          {{ notification.title }}
-        </p>
-        <button class="" @click="closeNotification(notification.id)" aria-label="delete">X</button>
-      </div>
-      <div class="message-body">
-        {{ notification.text }}
-      </div>
-    </article>
+    <div class="bg-white rounded mt-3" v-for="notification in notifications">
+      <article class="message rounded p-2 bg-opacity-75" :class="context[notification.type]"
+        :key="notification.id">
+        <div class="message-header d-flex justify-content-between w-100">
+          <p>
+            {{ notification.title }}
+          </p>
+          <button class="btn text-white ms-auto" @click="closeNotification(notification.id)" aria-label="delete">X</button>
+        </div>
+        <div class="message-body">
+          {{ notification.text }}
+        </div>
+      </article>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -20,9 +22,9 @@ import { CLOSE_NOTIFICATION } from '@/store/types-action';
 import { computed } from 'vue'
 import { useStore } from '../store'
 const context = {
-  [NotificationType.SUCCESS]: 'is-success',
-  [NotificationType.WARNING]: 'is-warning',
-  [NotificationType.FAIL]: 'is-danger'
+  [NotificationType.SUCCESS]: 'bg-success',
+  [NotificationType.WARNING]: 'bg-warning',
+  [NotificationType.FAIL]: 'bg-danger'
 } as any;
 const store = useStore();
 const notifications = computed(() => store.state.notifications);
@@ -36,7 +38,6 @@ function closeNotification(notificationId: NotificationType) {
   position: absolute;
   right: 0;
   width: 300px;
-  padding: 8px;
   z-index: 10;
   opacity: 0;
   animation: fade-in .65s ease-in forwards;
