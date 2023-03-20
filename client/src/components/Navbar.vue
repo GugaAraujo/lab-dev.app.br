@@ -23,7 +23,7 @@ const role = computed(() => {
         <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <span class="rounded-circle bg-dark text-white p-2">LG</span>
+              <span class="name-initials rounded-circle text-white p-2">LG</span>
             </a>
             <ul class="dropdown-menu  dropdown-menu-end">
               <li v-if="user" class="dropdown-item profile pb-2 text-truncate">
@@ -52,6 +52,13 @@ const role = computed(() => {
   .nav-link {
     color: white;
   }
+
+  .name-initials {
+    background-color: #292b2c;
+  }
+
+  .dropdown-toggle:after { content: none }
+  
   .dropdown-menu {
     width: 250px;
     .profile {
