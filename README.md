@@ -1,7 +1,7 @@
 ## lab-dev.app.br
 
 Study project using Nest.js, Vue.Js 3, Prisma,
-MongoDB,Vuex 4, JWT, TypeScript and Bootstrap.
+MongoDB, Vuex 4, JWT, TypeScript and Bootstrap.
 
 Each project has its own file with its **environment variables**.
 Ask the project manager for secrets
