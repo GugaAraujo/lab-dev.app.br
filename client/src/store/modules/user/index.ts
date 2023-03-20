@@ -2,7 +2,6 @@ import http from "@/http";
 import type IUser from "@/interfaces/IUser";
 import type { Estado } from "@/store";
 import {
-  GET_TOKEN,
   LOGIN,
   LOGOUT,
   REGISTER_USER,
@@ -48,12 +47,6 @@ export const user: Module<UserState, Estado> = {
           }, { root: true });
           router.push('/login');
         })
-    },
-    [GET_TOKEN]({ commit }) {
-      const user = localStorage.getItem('user');
-      user
-        ? commit((ADD_USER), ...user)
-        : router.push('/login');
     },
     [LOGOUT]({ commit }) {
       localStorage.clear();
